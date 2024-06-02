@@ -17,15 +17,6 @@ corndiseases_classes = ["Corn Common Rust", "Corn Gray Leaf Spot", "Corn Healthy
 # Load model with error handling
 model_path = "corn_model.h5"
 
-model = None
-if os.path.exists(model_path):
-    try:
-        model = tf.keras.models.load_model(model_path)
-        print("Model loaded successfully.")
-    except Exception as e:
-        print(f"Error loading model: {e}")
-else:
-    print(f"Model file not found at {model_path}")
 
 # Set Streamlit configuration
 st.set_page_config(page_title="Corn Disease Detection", page_icon=":corn:", layout="wide")
