@@ -14,9 +14,8 @@ gambar_prediksi = '(none)'
 # Define classes
 corndiseases_classes = ["Corn Common Rust", "Corn Gray Leaf Spot", "Corn Healthy", "Corn Northern Leaf Blight", "NON DETECT"]
 
-# Load model with error handling
-model_path = "corn_model.h5"
-
+# Load model
+model = tf.keras.models.load_model("modelcorn.h5")
 
 # Set Streamlit configuration
 st.set_page_config(page_title="Corn Disease Detection", page_icon=":corn:", layout="wide")
@@ -43,20 +42,16 @@ if uploaded_file is not None:
     st.write("")
     st.write("Classifying...")
 
-    # Preprocess the image
+    # Predict
+  
     test_image = Image.open(uploaded_file).resize(IMG_SIZE)
-    img_array = np.expand_dims(test_image, 0) / 255.0  # Normalize the image
+    img_array = np.expand_dims(test_image, 0)
 
-    # Predict if model is loaded
-    if model:
-        try:
-            predictions = model.predict(img_array)
-            hasil_prediksi = corndiseases_classes[np.argmax(predictions[0])]
-            st.success(f"Prediction: {hasil_prediksi}")
-        except Exception as e:
-            st.error(f"Error making predictions: {e}")
-    else:
-        st.error("Model is not loaded. Unable to make predictions.")
+    predictions = model.predict(img_array)
+    hasil_prediksi = corndiseases_classes[np.argmax(predictions[0])]
+
+    # Display result
+    st.success(f"Prediction: {hasil_prediksi}")
 
 st.subheader("Penjelasan mengenai jenis-jenis penyakit pada tanaman jagung")
 
