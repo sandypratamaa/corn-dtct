@@ -61,8 +61,8 @@ if uploaded_file is not None:
         predictions = model.predict(img_array)
         hasil_prediksi = corndiseases_classes[np.argmax(predictions[0])]
         st.success(f"Prediction: {hasil_prediksi}")
-            else:
-                 st.error("Model is not loaded. Unable to make predictions.")
+        else:
+        st.error("Model is not loaded. Unable to make predictions.")
 
 st.subheader("Penjelasan mengenai jenis-jenis penyakit pada tanaman jagung")
 
