@@ -58,9 +58,12 @@ if uploaded_file is not None:
 
     # Predict if model is loaded
     if model:
-        predictions = model.predict(img_array)
-        hasil_prediksi = corndiseases_classes[np.argmax(predictions[0])]
-        st.success(f"Prediction: {hasil_prediksi}")
+        try:
+            predictions = model.predict(img_array)
+            hasil_prediksi = corndiseases_classes[np.argmax(predictions[0])]
+            st.success(f"Prediction: {hasil_prediksi}")
+        except Exception as e:
+            st.error(f"Error making predictions: {e}")
     else:
         st.error("Model is not loaded. Unable to make predictions.")
 
