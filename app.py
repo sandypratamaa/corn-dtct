@@ -14,16 +14,16 @@ gambar_prediksi = '(none)'
 # Load model
 #model = tf.keras.models.load_model("corn_model.h5")
 
+import tensorflow as tf
+
 model_path = "corn_model.h5"
 
-if os.path.exists(model_path):
-    try:
-        model = tf.keras.models.load_model(model_path)
-        st.write("Model loaded successfully.")
-    except Exception as e:
-        st.write(f"Error loading model: {e}")
-else:
-    st.write(f"Model file not found at {model_path}")
+try:
+    model = tf.keras.models.load_model(model_path)
+    print("Model loaded successfully.")
+except Exception as e:
+    print(f"Error loading model: {e}")
+
 
 # Define classes
 corndiseases_classes = ["Corn Common Rust", "Corn Gray Leaf Spot", "Corn Healthy", "Corn Northern Leaf Blight", "NON DETECT"]
