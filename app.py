@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 import base64
 from tensorflow.keras.utils import custom_object_scope
 
-# Define custom objects
+# Define custom layer TrueDivide
 class TrueDivide(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
         super(TrueDivide, self).__init__(**kwargs)
@@ -23,7 +23,7 @@ gambar_prediksi = '(none)'
 # Load model with custom objects
 try:
     with custom_object_scope({'TrueDivide': TrueDivide}):
-        model = tf.keras.models.load_model("corn_model.h5")
+        model = tf.keras.models.load_model("corn_model.h5", custom_objects={'TrueDivide': TrueDivide})
 except Exception as e:
     st.error(f"Error loading model: {str(e)}")
     st.stop()
