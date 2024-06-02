@@ -17,6 +17,7 @@ corndiseases_classes = ["Corn Common Rust", "Corn Gray Leaf Spot", "Corn Healthy
 # Load model with error handling
 model_path = "corn_model.h5"
 
+# Check if the model file exists and load it
 model = None
 if os.path.exists(model_path):
     try:
@@ -24,8 +25,10 @@ if os.path.exists(model_path):
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading model: {e}")
+        st.error(f"Error loading model: {e}")
 else:
     print(f"Model file not found at {model_path}")
+    st.error(f"Model file not found at {model_path}")
 
 # Set Streamlit configuration
 st.set_page_config(page_title="Corn Disease Detection", page_icon=":corn:", layout="wide")
