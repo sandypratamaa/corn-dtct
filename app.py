@@ -6,14 +6,24 @@ import tensorflow as tf
 from PIL import Image
 from werkzeug.utils import secure_filename
 import base64
+from tensorflow.keras.utils import custom_object_scope
+
+# Define custom objects
+class TrueDivide(tf.keras.layers.Layer):
+    def __init__(self, **kwargs):
+        super(TrueDivide, self).__init__(**kwargs)
+
+    def call(self, inputs):
+        return tf.divide(inputs, tf.constant(255.0, dtype=inputs.dtype))
 
 # Set nilai default untuk hasil prediksi dan gambar yang diprediksi
 hasil_prediksi = '(none)'
 gambar_prediksi = '(none)'
 
-# Load model with error handling
+# Load model with custom objects
 try:
-    model = tf.keras.models.load_model("corn_model.h5")
+    with custom_object_scope({'TrueDivide': TrueDivide}):
+        model = tf.keras.models.load_model("corn_model.h5")
 except Exception as e:
     st.error(f"Error loading model: {str(e)}")
     st.stop()
