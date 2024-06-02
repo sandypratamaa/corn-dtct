@@ -54,7 +54,8 @@ if uploaded_file is not None:
 
     # Preprocess the image
     test_image = Image.open(uploaded_file).resize(IMG_SIZE)
-    img_array = np.expand_dims(test_image, 0) / 255.0  # Normalize the image
+    img_array = np.array(test_image) / 255.0  # Normalize the image
+    img_array = np.expand_dims(img_array, axis=0)
 
     # Predict if model is loaded
     if model:
