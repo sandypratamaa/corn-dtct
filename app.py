@@ -16,7 +16,7 @@ class TrueDivide(tf.keras.layers.Layer):
     def call(self, inputs):
         return tf.divide(inputs, tf.constant(255.0, dtype=inputs.dtype))
 
-# Set nilai default untuk hasil prediksi dan gambar yang diprediksi
+# Set default values for prediction result and predicted image
 hasil_prediksi = '(none)'
 gambar_prediksi = '(none)'
 
