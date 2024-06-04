@@ -6,13 +6,28 @@ import tensorflow as tf
 from PIL import Image
 from werkzeug.utils import secure_filename
 import base64
+import logging
 
 # Set nilai default untuk hasil prediksi dan gambar yang diprediksi
 hasil_prediksi = '(none)'
 gambar_prediksi = '(none)'
 
 # Load model
-model = tf.keras.models.load_model("corn_model_done.h5")
+#model = tf.keras.models.load_model("corn_model_done.h5")
+
+logging.basicConfig(level=logging.DEBUG)
+
+model_path = "corn_model_done.h5"
+if not os.path.exists(model_path):
+    st.error(f"Model file {model_path} does not exist.")
+    logging.error(f"Model file {model_path} does not exist.")
+else:
+    try:
+        model = tf.keras.models.load_model(model_path)
+        st.success("Model loaded successfully.")
+    except OSError as e:
+        st.error(f"Failed to load model: {str(e)}")
+        logging.error("Failed to load model", exc_info=True)
 
 # Define classes
 corndiseases_classes = ["Corn Common Rust", "Corn Gray Leaf Spot", "Corn Healthy", "Corn Northern Leaf Blight", "Non detect"]
