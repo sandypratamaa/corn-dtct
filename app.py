@@ -17,17 +17,37 @@ gambar_prediksi = '(none)'
 
 logging.basicConfig(level=logging.DEBUG)
 
+# Function to list files in the current directory for debugging
+def list_files_in_directory(directory="."):
+    files = os.listdir(directory)
+    return files
+
+# Check the current working directory and list files
+cwd = os.getcwd()
+st.write(f"Current working directory: {cwd}")
+st.write("Files in current directory:", list_files_in_directory(cwd))
+
 model_path = "corn_model_done.h5"
-if not os.path.exists(model_path):
-    st.error(f"Model file {model_path} does not exist.")
-    logging.error(f"Model file {model_path} does not exist.")
+abs_model_path = os.path.abspath(model_path)
+st.write(f"Model absolute path: {abs_model_path}")
+
+if not os.path.exists(abs_model_path):
+    st.error(f"Model file {abs_model_path} does not exist.")
+    logging.error(f"Model file {abs_model_path} does not exist.")
 else:
     try:
-        model = tf.keras.models.load_model(model_path)
+        model = tf.keras.models.load_model(abs_model_path)
         st.success("Model loaded successfully.")
     except OSError as e:
         st.error(f"Failed to load model: {str(e)}")
         logging.error("Failed to load model", exc_info=True)
+
+# Setting page configuration
+try:
+    st.set_page_config(page_title="Corn Disease Detection", page_icon=":corn:", layout="wide")
+except Exception as e:
+    st.error(f"Failed to set page configuration: {str(e)}")
+    logging.error("Failed to set page configuration", exc_info=True)
 
 # Define classes
 corndiseases_classes = ["Corn Common Rust", "Corn Gray Leaf Spot", "Corn Healthy", "Corn Northern Leaf Blight", "Non detect"]
